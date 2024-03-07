@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import * as echarts from 'echarts'
+import './assets/css/index.css'
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 new Vue({
