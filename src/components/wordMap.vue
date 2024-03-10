@@ -19,7 +19,7 @@ export default {
                         level: 1
                     },
                     {
-                        coord: [208.940947,63.3134],
+                        coord: [147.756712,67.946144],
                         toName: "企业2",
                         fromName:'企业2',
                         value: 1
@@ -33,7 +33,7 @@ export default {
                         level: 1
                     },
                     {
-                        coord: [113.8953, 22.901],
+                        coord: [-52.479467,-17.78616],
                         toName: "企业2",
                         fromName:'企业2',
                         value: 1
@@ -46,7 +46,8 @@ export default {
         this.myChart = this.$echarts.init(this.$refs['wordMap']);
         this.$echarts.registerMap('world', geoJson.default);
         let option = this.init()
-        this.linesData.forEach(item => {
+        let colors=["#C83F11","#FF9500","#3593FF","#0DD567"];
+        this.linesData.forEach((item,index) => {
             this.series.push(
                 // 企业点 样式
                 {
@@ -74,17 +75,7 @@ export default {
                     },
                     symbol: "circle",
                     symbolSize: 15, //原7.5
-                    color: function (param) {
-                        let level = param.value[3];
-                        if (level === 1)
-                            return "#C83F11";
-                        if (level === 2)
-                            return "#FF9500";
-                        if (level === 3)
-                            return "#3593FF";
-                        if (level === 4)
-                            return "#0DD567";
-                    },
+                    
                     itemStyle: {
                         normal: {
                             show: false
@@ -112,15 +103,15 @@ export default {
                         trailLength: 0.1, // 特效尾迹长度[0,1]
                         symbol: "arrow", // 箭头图标
                         symbolSize: 5, // 图标大小
-                        color: "#fff" // 箭头颜色
+                        color: colors[index] // 箭头颜色
                     },
                     // 尾部 线的样式
                     lineStyle: {
                         normal: {
-                            width: 1, // 尾迹线条宽度
-                            opacity: 0, // 尾迹线条透明度
-                            curveness: 0.1, //尾迹线条曲直度
-                            color:'#f00'
+                            width: 3, // 尾迹线条宽度
+                            opacity: 0.5, // 尾迹线条透明度
+                            curveness: 0.2, //尾迹线条曲直度
+                            color:colors[index]
                         }
                     },
                     // data: convertData(item[1])
@@ -140,7 +131,7 @@ export default {
                     label: {
                         normal: {
                             show: true,
-                            position: "right", //显示位置
+                            position: "bottom", //显示位置
                             offset: [5, 0], //偏移设置
                             formatter: "{b}", //圆环显示文字
                             color: "#F8E71C" //攻击点文字颜色
@@ -177,83 +168,84 @@ export default {
     },
     methods:{
         init(){
-      return {
-        backgroundColor: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 1,
-            y2: 1,
-            colorStops: [
-                {
-                    offset: 0,
-                    color: '#0A131A', // 0% 处的颜色
-                },
-                {
-                    offset: 1,
-                    color: '#00091a', // 100% 处的颜色
-                },
-            ],
-            globalCoord: false, // 缺省为 false
-        },
-        title: {
-            top: 10,
-            // text: '世界流量统计',
-            subtext: '',
-            x: 'center',
-            textStyle: {
-                color: '#ccc',
+        return {
+            backgroundColor: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 1,
+                colorStops: [
+                    {
+                        offset: 0,
+                        color:'rgba(0,0,0,0)',
+                        
+                    },
+                    {
+                        offset: 1,
+                        color: 'rgba(0,0,0,0)', // 100% 处的颜色
+                    },
+                ],
+                globalCoord: false, // 缺省为 false
             },
-        },
+            title: {
+                top: 10,
+                // text: '世界流量统计',
+                subtext: '',
+                x: 'center',
+                textStyle: {
+                    color: '#ccc',
+                },
+            },
 
-        legend: {
-            orient: 'vertical',
-            y: 'bottom',
-            x: 'right',
-            data: ['流量'],
-            textStyle: {
-                color: '#fff',
-            },
-        },
-        visualMap: {
-            show: false,
-            min: 0,
-            max: 500,
-            left: 'left',
-            top: 'bottom',
-            text: ['高', '低'], // 文本，默认为数值文本
-            calculable: true,
-            seriesIndex: [1],
-            inRange: {},
-        },
-        
-        geo: {
-            map: 'world',
-            zoom: 1.23,
-            show: true,
-            roam: true,
-            label: {
-                normal: {
-                    show: false,
-                },
-                emphasis: {
-                    show: true,
+            legend: {
+                orient: 'vertical',
+                y: 'bottom',
+                x: 'right',
+                data: ['流量'],
+                textStyle: {
+                    color: '#fff',
                 },
             },
-            itemStyle: {
-                normal: {
-                    areaColor: "#54a1c6",//'#3a7fd5',
-                    borderColor: '#0a53e9', //线
-                    shadowColor: '#092f8f', //外发光
-                    shadowBlur: 20,
+            visualMap: {
+                show: false,
+                min: 0,
+                max: 500,
+                left: 'left',
+                top: 'bottom',
+                text: ['高', '低'], // 文本，默认为数值文本
+                calculable: true,
+                seriesIndex: [1],
+                inRange: {},
+            },
+            
+            geo: {
+                map: 'world',
+                zoom: 1.23,
+                show: true,
+                roam: true,
+                label: {
+                    normal: {
+                        show: false,
+                    },
+                    emphasis: {
+                        show: true,
+                    },
                 },
-                emphasis: {
-                    areaColor: '#0a2dae', //悬浮区背景
+                itemStyle: {
+                    normal: {
+                        areaColor: "#54a1c6",//'#3a7fd5',
+                        borderColor: '#0a53e9', //线
+                        shadowColor: '#092f8f', //外发光
+                        shadowBlur: 20,
+                    },
+                    emphasis: {
+                        areaColor: '#0a2dae', //悬浮区背景
+                    },
                 },
             },
-        },
-        series: []
-        }
+            series: []
+            }
         }
     }
 }
