@@ -10,17 +10,20 @@ export default {
             myChart:null,
             options:null,
             series:[],
+            
             linesData: [[
                 [
                     {
                         //企业
                         coord: [-104.328223,56.969199],
                         fromName: "加拿大",
+                        id:'oneline_start',
                         level: 1
                     },
                     {
                         coord: [147.756712,67.946144],
                         toName: "俄罗斯",
+                        id:'online_end',
                         value: 1
                     }
                 ],
@@ -29,12 +32,14 @@ export default {
                         //企业
                         coord: [121.4648, 31.2891],
                         fromName: "中国",
+                        id:'towline_start',
                         level: 1
                     },
                     {
                         coord: [-52.479467,-17.78616],
                         toName: "美国",
                         fromName:'企业2',
+                        id:'towline_end',
                         value: 1
                     }
                 ]
@@ -46,6 +51,10 @@ export default {
         this.$echarts.registerMap('world', geoJson.default);
         let option = this.init()
         let colors=["#C83F11","#FF9500","#3593FF","#0DD567"];
+        // this.myChart.on('click', function (params) {
+        //     // 控制台打印数据的名称
+        //     console.log(params);
+        // });
         this.linesData.forEach((item,index) => {
             this.series.push(
                 // 企业点 样式
@@ -61,8 +70,8 @@ export default {
                     label: {
                         normal: {
                             show: true,
-                            position: "right", // 文字位置
-                            offset: [10, 0], // 偏移设置
+                            position: "bottom", // 文字位置
+                            offset: [0, 10], // 偏移设置
                             formatter: "{b}", // 圆环显示文字
                             textStyle: {
                                 fontWeight: "bold"
@@ -101,17 +110,21 @@ export default {
                         period: 5, // 箭头指向速度，值越小速度越快
                         trailLength: 0.1, // 特效尾迹长度[0,1]
                         symbol: "arrow", // 箭头图标
-                        symbolSize: 5, // 图标大小
+                        symbolSize: 10, // 图标大小
                         color: colors[index] // 箭头颜色
                     },
                     // 尾部 线的样式
                     lineStyle: {
-                        normal: {
-                            width: 3, // 尾迹线条宽度
-                            opacity: 0.5, // 尾迹线条透明度
-                            curveness: 0.2, //尾迹线条曲直度
-                            color:colors[index]
-                        }
+                        type:'dashed',
+                        // normal: {
+                        //     width: 3, // 尾迹线条宽度
+                        //     opacity: 0.5, // 尾迹线条透明度
+                        //     curveness: 0.2, //尾迹线条曲直度
+                        //     color:colors[index]
+                        // }
+                        opacity: 0.5,
+                        width: 3,
+                        curveness: 0.2
                     },
                     // data: convertData(item[1])
                     data: item
@@ -128,15 +141,19 @@ export default {
                         scale: 0 //波纹圆环最大小
                     },
                     label: {
-                        normal: {
+                        normal: { //asmw
                             show: true,
                             position: "bottom", //显示位置
                             offset: [5, 0], //偏移设置
                             formatter: "{b}", //圆环显示文字
-                            color: "#F8E71C" //攻击点文字颜色
+                            color: "#F8E71C", //攻击点文字颜色
+                            textStyle: {
+                                fontWeight: "bold"
+                            }
                         },
                         emphasis: {
-                            show: true
+                            show: false,
+                            
                         }
                     },
                     symbol: "circle",
@@ -196,7 +213,44 @@ export default {
                     color: '#ccc',
                 },
             },
-
+            tooltip: {
+                trigger: 'item',
+                triggerOn :'click',
+                formatter: function (params) {
+                    console.log(params.seriesType,'=======params')
+                    var res = "";
+                    res += "<div class='nodeInfo'>"
+                    res += "<table style=\"list-style:none;width:250px;font-size:12px;font-weight:bold;margin-top:3px;table-layout:fixed;\">\n";
+                    res += "<thead ><tr>";
+                    res += "<a><font color=#00D5EE>近24小时攻防统计</font></a>";
+                    res += "</tr><thead>\n";
+                    res += "<tbody style=\"height:20px;\">";
+                    res += "<tr style=\"border-bottom:1px solid #00D5EE;\"><th style=\"text-align:center;color:#00D5EE;\">威胁类型</th>"
+                        + "<th style=\"text-align:center;color:#00D5EE;\">受攻击次数</th>"
+                        + "<th style=\"text-align:center;color:#00D5EE;\">防御次数</th>"
+                        + "<th style=\"text-align:center;color:#00D5EE;\">成功率</th></tr>";
+                    res += "<tr><td style=\"text-align:left;\">高危</td><td style=\"text-align:center;\">"
+                        + "100</td><td style=\"text-align:center;\">"
+                        + "99</td><td style=\"text-align:center;\">"
+                        + "99%</td></tr>";
+                    res += "<tr><td style=\"text-align:left;\">中危</td><td style=\"text-align:center;\">"
+                        + "100</td><td style=\"text-align:center;\">"
+                        + "100</td><td style=\"text-align:center;\">"
+                        + "100%</td></tr>";
+                    res += "<tr><td style=\"text-align:left;\">低危</td><td style=\"text-align:center;\">"
+                        + "100</td><td style=\"text-align:center;\">"
+                        + "98</td><td style=\"text-align:center;\">"
+                        + "98%</td></tr>";
+                    res += "<tr><td style=\"text-align:left;\">可疑</td><td style=\"text-align:center;\">"
+                        + "100</td><td style=\"text-align:center;\">"
+                        + "100</td><td style=\"text-align:center;\">"
+                        + "100%</td></tr>";
+                    res += "</tbody>";
+                    res += "</table>\n";
+                    res += "</div>";
+                    return res;
+                },
+            },
             legend: {
                 orient: 'vertical',
                 y: 'bottom',
@@ -222,13 +276,13 @@ export default {
                 map: 'world',
                 zoom: 1.23,
                 show: true,
-                roam: true,
+                roam: false,
                 label: {
                     normal: {
                         show: false,
                     },
                     emphasis: {
-                        show: true,
+                        show: false,
                     },
                 },
                 itemStyle: {

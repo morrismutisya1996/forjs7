@@ -45,18 +45,14 @@
               
             </div>
           </div>
-
-          
-
         </li>
         <li style="width:48%">
           <div class="box" style="position: relative">
             <div class="attr">
-              <el-button class="el-button-custom el-acitve">概要</el-button>
-              <el-button class="el-button-custom">详情</el-button>
+              <el-button @click="toggleType('Summary')" :class="[showType === 'Summary'?'el-acitve':'']" class="el-button-custom">概要</el-button>
+              <el-button @click="toggleType('detail')" :class="[showType === 'detail'?'el-acitve':'']" class="el-button-custom">详情</el-button>
             </div>
             <div class="" id="map" style="height: 700px; position: relative; z-index: 100">
-              
               <word-map/>
             </div>
           </div>
@@ -235,6 +231,7 @@ export default {
       timeString:'',
       timeFn:null,
       dateVal:'',
+      showType:'Summary',
       dateArr:[
         {label:'一天',value:'1'},
         {label:'七天',value:'7'},
@@ -256,6 +253,9 @@ export default {
     this.timeFn = setTimeout(this.getTime,1000);//開始运行
   },
   methods:{
+    toggleType(val){
+      this.showType = val;
+    },
     getTime(){
         clearTimeout(this.timeFn);//清除定时器
         let dt = new Date();
