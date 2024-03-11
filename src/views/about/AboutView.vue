@@ -52,7 +52,7 @@
         <li style="width:48%">
           <div class="box" style="position: relative">
             <div class="attr">
-              <el-button class="el-button-custom el-acitve">世界</el-button>
+              <el-button class="el-button-custom el-acitve">概要</el-button>
               <el-button class="el-button-custom">详情</el-button>
             </div>
             <div class="" id="map" style="height: 700px; position: relative; z-index: 100">

@@ -15,13 +15,12 @@ export default {
                     {
                         //企业
                         coord: [-104.328223,56.969199],
-                        fromName: "企业1",
+                        fromName: "加拿大",
                         level: 1
                     },
                     {
                         coord: [147.756712,67.946144],
-                        toName: "企业2",
-                        fromName:'企业2',
+                        toName: "俄罗斯",
                         value: 1
                     }
                 ],
@@ -29,12 +28,12 @@ export default {
                     {
                         //企业
                         coord: [121.4648, 31.2891],
-                        fromName: "企业1",
+                        fromName: "中国",
                         level: 1
                     },
                     {
                         coord: [-52.479467,-17.78616],
-                        toName: "企业2",
+                        toName: "美国",
                         fromName:'企业2',
                         value: 1
                     }
